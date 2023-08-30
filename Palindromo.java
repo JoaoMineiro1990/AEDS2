@@ -15,8 +15,6 @@ public class Palindromo {
         return verifica;
     }
 
-    
-
     public static void main (String[] args){
 
         Scanner sc = new Scanner(System.in);
@@ -32,6 +30,6 @@ public class Palindromo {
                 if(isPalindromo(palin)){MyIO.println("SIM");}
                 else{MyIO.println("NAO");}
             }
-        }}
+        }sc.close();}
         
     }
