@@ -12,9 +12,10 @@ public class Palindromo {
                 i=testando.length();
             }
         }
-
         return verifica;
     }
+
+    
 
     public static void main (String[] args){
 
