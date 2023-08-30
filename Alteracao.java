@@ -20,13 +20,14 @@ public class Alteracao {
         String escrita;
         Random gerador = new Random();
         gerador.setSeed(4);
-        char letra = (char) ('a' + (Math.abs(gerador.nextInt()) % 26));
-        char trocar = (char) ('a' + (Math.abs(gerador.nextInt()) % 26));
         
         while(ver){
+            
             escrita=MyIO.readLine();
             if(escrita.length()==3&&escrita.charAt(0)=='F'&&escrita.charAt(1)=='I'&& escrita.charAt(2)=='M'){ver=false;}
             if(ver){
+                char letra = (char) ('a' + (Math.abs(gerador.nextInt()) % 26));
+                char trocar = (char) ('a' + (Math.abs(gerador.nextInt()) % 26));
                 escrita=alterar(escrita,letra,trocar);
                 MyIO.println(escrita);
             }
