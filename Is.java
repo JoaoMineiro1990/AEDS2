@@ -8,7 +8,6 @@ public class Is {
             }
         }
         return ver;
-
     }
     public static boolean consoantes (String frase){
         boolean ver=true;
@@ -21,9 +20,7 @@ public class Is {
                 i=frase.length();
             }}
             else{i=frase.length();ver=false;}
-            
         }
-
         return ver;
     }
 
@@ -34,34 +31,35 @@ public class Is {
             if(frase.charAt(i)>=48&&frase.charAt(i)<=57){}
             else{ver=false; i=frase.length();}
         }
-        
         return ver;
     }
     
     public static boolean real (String frase){
         boolean ver= true;
-        int contador=0;
-        int contador2=0;
-        for(int i=0;i<frase.length();i++){
-            
-            if(contador<=1||contador2<=1){
-                if(frase.charAt(i)=='-'){ 
+        int contador = 0;
+        int contador2 = 0;
+        for(int i = 0; i < frase.length(); i++)
+        {
+            if(contador <= 1 || contador2 <= 1)
+            {
+
+                if(frase.charAt(i) == '-' )
+                { 
                     contador2++;                   
                 }
-                else if(frase.charAt(i)==','||frase.charAt(i)=='.')
+                else if(frase.charAt(i) == ',' ||frase.charAt(i) == '.')
                 {
                     contador++;
                 }
-                else if(frase.charAt(i)<48||frase.charAt(i)>57){
-                    i=frase.length();
+                else if( frase.charAt(i) < 48 || frase.charAt(i) > 57){
+                    i = frase.length();
                     ver=false;
                 }
             }
-            else if(contador>=2||contador2>=2){i=frase.length();}        
+            else if(contador >= 2||contador2 >= 2) i = frase.length();        
         }
-        if(contador2>=2||contador>=2){ver=false;}
+        if(contador2 >= 2 || contador >= 2)ver=false;
         return ver;      
-
     }
 
     public static void main (String[] args){
@@ -71,21 +69,21 @@ public class Is {
         
         while(veri){
             frase=MyIO.readLine();
-            if(frase.length()==3&&frase.charAt(0)=='F'&&frase.charAt(1)=='I'&& frase.charAt(2)=='M'){veri=false;}
+            if(frase.length() == 3 && frase.charAt(0) == 'F' && frase.charAt(1) == 'I' && frase.charAt(2) == 'M')veri=false;
             if(veri){
                 String nova="";
                 test=vogais(frase);
-                if(test){nova+="SIM";}
-                else{nova+="NAO";}
+                if(test) nova+="SIM";
+                else nova+="NAO";
                 test=consoantes(frase);
-                if(test){nova+=" SIM";}
-                else{nova+=" NAO";}
+                if(test) nova+=" SIM";
+                else nova+=" NAO";
                 test=inteiro(frase);
-                if(test){nova+=" SIM";}
-                else{nova+=" NAO";}
+                if(test) nova+=" SIM";
+                else nova+=" NAO";
                 test=real(frase);
-                if(test){nova+=" SIM";}
-                else{nova+=" NAO";}
+                if(test) nova+=" SIM";
+                else nova+=" NAO";
                 MyIO.println(nova);
             }
         }}
