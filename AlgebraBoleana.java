@@ -1,66 +1,52 @@
 public class AlgebraBoleana {
 
     public static String Algebra(int posicao, String funcoes) {
-        String retorno = "";
-        int i = 0;
-        int contador = 0;
-        int contador2 = 0;
-
-        while (i < funcoes.length()) 
+        String retorno ="";
+        for(int i = 0; i < funcoes.length() ; i++)
         {
-            if (i < posicao) {
-                retorno += funcoes.charAt(i);
-                i++;
+            if (i < posicao || i > posicao)
+            {
+                retorno += funcoes.charAt(i); 
+            }
+            else if (i == posicao)
+            {
+                if(funcoes.charAt(i) == '!')
+                {
+                    if (funcoes.charAt(i+2) == '0') retorno += '1';
+                    else retorno += '0';
+                    i += 3;
+                }
+                else if( funcoes.charAt(i) == '.')
+                {
+                    int contador = 0;
+                    int valor=0;
+                    while (funcoes.charAt(i + contador) != ')')
+                    {
+                        contador++ ;
+                        if(funcoes.charAt(i + contador) == '1')valor ++;
+                    }
+                    if (valor > 0) retorno += '1';
+                    else retorno += '0';
+                    i = i + contador;
+                }
+                else if( funcoes.charAt(i) == '^')
+                {
+                    int contador = 0;
+                    int valor=0;
+                    while (funcoes.charAt(i + contador) != ')')
+                    {
+                        contador++ ;
+                        if(funcoes.charAt(i + contador) == '0')valor ++;
+                    }
+                    if (valor > 0) retorno += '0';
+                    else retorno += '1';
+                    i = i + contador;
+                }
             }
 
-            else if (funcoes.charAt(i) == '!') {
-                if (funcoes.charAt(i + 1) == '1') {
-                    retorno += "0)";
-                    i++;
-                } else {
-                    retorno += "1)";
-                    i++;
-                }
-
-            } else if (funcoes.charAt(i) == '^') {
-                for (; i != ')'; i++) {
-                    if (funcoes.charAt(i) == '1') {
-                        contador++;
-                    }
-                    if (funcoes.charAt(i) == '0' || funcoes.charAt(i) == '1') {
-                        contador2++;
-                    }
-                }
-
-                if (contador == contador2) {
-                    retorno += '1';
-                    i++;
-                } else {
-                    retorno += '0';
-                    i++;
-                }
-            } else if (funcoes.charAt(i) == '.') {
-                for (; i != ')'; i++) {
-                    if (funcoes.charAt(i) == '1') {
-                        contador++;
-                    }
-                    if (funcoes.charAt(i) == '0' || funcoes.charAt(i) == '1') {
-                        contador2++;
-                    }
-                }
-
-                if (contador == contador2) {
-                    retorno += '0';
-                    i++;
-                } else {
-                    retorno += '1';
-                }
-            }
         }
-
         return retorno;
     }
-
     public static void main(String[] args) throws Exception {
         String leitura = "";
         String func = "";
@@ -89,7 +75,7 @@ public class AlgebraBoleana {
             if (leitura.charAt(i) == ')')
                 func += leitura.charAt(i);
         }
-        MyIO.println(func);
+    
         for (int i = 0; i < func.length(); i++) {
             if (func.charAt(i) == '.' || func.charAt(i) == '^' || func.charAt(i) == '!')
                 contador++;
@@ -104,11 +90,12 @@ public class AlgebraBoleana {
                 contador2++;
             }
         }
-
+        
         for (int i = contador - 1; i >= 0; i--) {
             func = Algebra(posicoes[i], func);
-            MyIO.println(func);
         }
         MyIO.println(func);
     }
 }
+
+
