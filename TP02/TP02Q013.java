@@ -238,13 +238,11 @@ public class TP02Q013
             jogadores[k]=a2[j++];
         }
     }
-
     while (i < n1)
     {
         mov++;
         jogadores[k++] = a1[i++];
     }
-
     while (j < n2) 
     {
         mov++;
@@ -264,8 +262,9 @@ public class TP02Q013
 
         // inicio codigo
         //String Arquivo = "tmp/players.csv";
-        String Arquivo = "/tmp/players.csv";
-        Jogador[] jogadores = new Jogador[463];
+        //String Arquivo = "/tmp/players.csv";
+        String Arquivo = "/tmp/playersAtualizado.csv";
+        Jogador[] jogadores = new Jogador[500];
         Scanner scanner = new Scanner(System.in);
 
         int i=0;

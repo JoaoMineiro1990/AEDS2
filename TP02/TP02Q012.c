@@ -4,6 +4,8 @@
 #include <time.h>
 
 double contComp=0;
+double contmov=0;
+
 typedef struct Jogador 
 {
   int id;
@@ -25,7 +27,8 @@ obj.altura, obj.peso, obj.anoNascimento, obj.universidade,obj.cidadeNascimento, 
 
 void carregarDados(Jogador p[]) 
 {
-  FILE *arq = fopen("players.csv","r");
+  //FILE *arq = fopen("/tmp/players.csv","r");
+  FILE *arq = fopen("/tmp/playersAtualizado.csv","r");
   char texto[1000];
   int virgula[7];
   int z=0;
@@ -195,33 +198,167 @@ Jogador achar(Jogador jg[], int numero)
   return pessoas;
 }
 
+void swap(Jogador jg[], int i, int j)
+{
+    contmov+=3;
+    Jogador tmp = clone(jg[i]);
+    jg[i] = clone(jg[j]);
+    jg[j] = clone(tmp);
+}
+
+int menorNome(Jogador vetor[], int tam, int inicio) 
+{
+  int menor = inicio;
+  for (int i = inicio; i < tam; i++) 
+  {
+    contComp++;
+    if (strcmp(vetor[i].nome, vetor[menor].nome) < 0) 
+    {
+        menor = i;
+    }
+  }
+  return menor;
+}
+
+void selecaoRecursiva(Jogador vetor[], int tam, int inicio, int p) 
+{   
+    contComp+=2;
+    if (inicio == tam - 1) return;
+    int menor = menorNome(vetor, tam, p);
+    if (menor != inicio) swap(vetor,inicio,menor);
+    selecaoRecursiva(vetor, tam, inicio + 1, p + 1);
+}
+
+void selecaoEN(Jogador jg[], int tam)
+{
+for (int i = 0; i < (tam - 1); i++) 
+    {
+    int menor = i;
+    for (int j = i; j < tam; j++) 
+    {
+        int r = strcmp(jg[menor].estadoNascimento, jg[j].estadoNascimento);
+        if (r == 0) 
+        {
+            if (strcmp(jg[menor].nome, jg[j].nome) > 0) {
+            menor = j;
+            }
+        } 
+        else if (r > 0) 
+        {
+            menor = j;
+        }
+    }
+        swap(jg, menor, i);
+    }
+}
+
+void inseCor(Jogador joga[], int n, int cor, int h)
+{
+    for (int i = (h + cor); i < n; i+=h) 
+    {
+    Jogador tmp = clone(joga[i]);
+    int j = i - h;
+    while ((j >= 0) && (joga[j].peso > tmp.peso))
+    {
+        joga[j + h] = clone(joga[j]);
+        j-=h;
+    }
+    joga[j + h] = clone(tmp);
+    }
+}
+
+void shellsort(Jogador joga[], int n) 
+{
+    int h = 1;
+    do { h = (h * 3) + 1; } while (h < n);
+    do 
+    {
+        h /= 3;
+        for(int cor = 0; cor < h; cor++)
+        {
+            inseCor(joga, n, cor, h);
+        }
+    } while (h != 1);    
+}
+
+void quicksort(Jogador jogadores[], int esq, int dir)
+{
+
+int i = esq, j = dir, pivo = (esq+dir)/2;
+while (i <= j) 
+{
+    while (strcmp(jogadores[i].estadoNascimento,jogadores[pivo].estadoNascimento) < 0)
+    {
+        contComp++;
+        i++;
+    }
+    while (strcmp(jogadores[j].estadoNascimento,jogadores[pivo].estadoNascimento) > 0)
+    {
+        contComp++;
+        j--;
+    }
+    if (i <= j)
+    { 
+        swap(jogadores, i, j); 
+        i++; 
+        j--; 
+    }
+  }
+  if (esq < j) quicksort(jogadores, esq, j);
+  if (i < dir) quicksort(jogadores, i, dir);
+}
+
+void bolha(Jogador vetor[], int n)
+{
+    int i, j;
+    for (i = 0; i < (n-1); i++) 
+    {
+        for (j = 0; j < (n-i-1); j++) 
+        {
+            contComp++;
+            if (vetor[j].anoNascimento > vetor[j + 1].anoNascimento)
+            {
+                swap(vetor,j, j + 1);
+            }
+            else if(vetor[j].anoNascimento == vetor[j + 1].anoNascimento && strcmp(vetor[j].nome,vetor[j+1].nome)>0)
+            {
+                swap(vetor,j, j + 1);
+                j--;
+            }
+        }
+    }
+}
+
 int main()
 {
-  // clock_t inicio,fim;
-  // double tempo;
-  // inicio = clock();
-  Jogador jg [3923];
-  carregarDados(jg);
+    clock_t inicio,fim;
+    double tempo;
+    inicio = clock();
+    Jogador jg [3923];
+    carregarDados(jg);
 
-  Jogador pessoas[1000];
-  int numero;
-  int p = 0;
-  char str[5];
-  scanf("%s",str);
-  while(strcmp(str,"FIM")!=0)
-  {
-    numero = atoi(str);
-    pessoas[p] = achar(jg,numero);
-    imprimir(pessoas[p]);
-    p++;
+    // questao 12
+
+    Jogador pessoas[1000];
+    int numero;
+    int p = 0;
+    char str[5];
     scanf("%s",str);
-  }
-  // //registro de log 
-  // double comparacoes = contComp;
-  // fim = clock();
-  // tempo = (double)(fim-inicio)/CLOCKS_PER_SEC;
-  // FILE *arq = fopen("816594_binaria.txt","w");
-  // fprintf(arq,"816594\t %.0lf comparacoes\t %.4lf segundos\t",comparacoes,tempo);
-  // fclose(arq);
-  return 0;
+    while(strcmp(str,"FIM")!=0)
+    {
+        numero = atoi(str);
+        pessoas[p] = achar(jg,numero);
+        p++;
+        scanf("%s",str);
+    }
+    bolha(pessoas,p);
+    mostrar(pessoas,p);
+
+    //registro de log 
+    fim = clock();
+    tempo = (double)(fim-inicio)/CLOCKS_PER_SEC;
+    FILE *arq = fopen("816594_bolha.txt","w");
+    fprintf(arq,"816594\t %.0lf comparacoes\t %.0lf movimentacoes\t %.4lf segundos\t",contComp,contmov,tempo);
+    fclose(arq);
+    return 0;
 }

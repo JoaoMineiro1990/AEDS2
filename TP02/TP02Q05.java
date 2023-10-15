@@ -212,7 +212,8 @@ public class TP02Q05
 
         // inicio codigo
         //String Arquivo = "C:\\Users\\Pichau\\Desktop\\Aeds2\\AEDS2\\tmp\\players.csv";
-        String Arquivo = "/tmp/players.csv";
+        //String Arquivo = "/tmp/players.csv";
+        String Arquivo = "/tmp/playersAtualizado.csv";
         Jogador[] jogadores = new Jogador[500];
         Scanner scanner = new Scanner(System.in);
 
@@ -238,6 +239,7 @@ public class TP02Q05
                     int j=0;
 
                     // lendo o id e salvando em uma string
+                    
                     while ( j < linha.length())
                     {
                         if( linha.charAt(j)!= ',')
@@ -289,17 +291,9 @@ public class TP02Q05
 
         selec( i , jogadores);
 
-        // exibindo os resultados
-        int id;
-        String nomeJog;
-        scanner.nextLine();
-        nomeJog = scanner.nextLine();
-        while(true)
+        for(int l = 0; l < i ; l++)
         {
-            nomeJog = scanner.nextLine();
-            if(nomeJog.equals("FIM"))break;
-            id = Integer.parseInt(nomeJog);
-            jogadores[id].Imprimir();
+            System.out.println(jogadores[l].Imprimir());
         }
         
         scanner.close();

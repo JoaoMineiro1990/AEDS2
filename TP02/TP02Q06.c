@@ -4,6 +4,7 @@
 #include <time.h>
 
 double contComp=0;
+double contmov=0;
 typedef struct Jogador 
 {
   int id;
@@ -25,7 +26,8 @@ obj.altura, obj.peso, obj.anoNascimento, obj.universidade,obj.cidadeNascimento, 
 
 void carregarDados(Jogador p[]) 
 {
-  FILE *arq = fopen("players.csv","r");
+  //FILE *arq = fopen("/tmp/players.csv","r");
+  FILE *arq = fopen("/tmp/playersAtualizado.csv","r");
   char texto[1000];
   int virgula[7];
   int z=0;
@@ -195,33 +197,66 @@ Jogador achar(Jogador jg[], int numero)
   return pessoas;
 }
 
+void swap(Jogador jg[], int i, int j)
+{
+    contmov+=3;
+    Jogador tmp = clone(jg[i]);
+    jg[i] = clone(jg[j]);
+    jg[j] = clone(tmp);
+}
+
+int menorNome(Jogador vetor[], int tam, int inicio) 
+{
+  int menor = inicio;
+  for (int i = inicio; i < tam; i++) 
+  {
+    contComp++;
+    if (strcmp(vetor[i].nome, vetor[menor].nome) < 0) 
+    {
+        menor = i;
+    }
+  }
+  return menor;
+}
+
+void selecaoRecursiva(Jogador vetor[], int tam, int inicio, int p) 
+{   
+    contComp+=2;
+    if (inicio == tam - 1) return;
+    int menor = menorNome(vetor, tam, p);
+    if (menor != inicio) swap(vetor,inicio,menor);
+    selecaoRecursiva(vetor, tam, inicio + 1, p + 1);
+}
+
 int main()
 {
-  // clock_t inicio,fim;
-  // double tempo;
-  // inicio = clock();
-  Jogador jg [3923];
-  carregarDados(jg);
+    clock_t inicio,fim;
+    double tempo;
+    inicio = clock();
+    Jogador jg [3923];
+    carregarDados(jg);
 
-  Jogador pessoas[1000];
-  int numero;
-  int p = 0;
-  char str[5];
-  scanf("%s",str);
-  while(strcmp(str,"FIM")!=0)
-  {
-    numero = atoi(str);
-    pessoas[p] = achar(jg,numero);
-    imprimir(pessoas[p]);
-    p++;
+    // questao 6
+    Jogador pessoas[1000];
+    int numero;
+    int p = 0;
+    char str[5];
     scanf("%s",str);
-  }
-  // //registro de log 
-  // double comparacoes = contComp;
-  // fim = clock();
-  // tempo = (double)(fim-inicio)/CLOCKS_PER_SEC;
-  // FILE *arq = fopen("816594_binaria.txt","w");
-  // fprintf(arq,"816594\t %.0lf comparacoes\t %.4lf segundos\t",comparacoes,tempo);
-  // fclose(arq);
-  return 0;
+    while( strcmp(str,"FIM") != 0)
+    {
+        numero = atoi(str);
+        pessoas[p] = achar(jg,numero);
+        p++;
+        scanf("%s",str);
+    }
+    selecaoRecursiva(pessoas,p,0,0);
+    mostrar(pessoas,p); 
+
+    //registro de log 
+    fim = clock();
+    tempo = (double)(fim-inicio)/CLOCKS_PER_SEC;
+    FILE *arq = fopen("816594_selecaoRecursiva.txt","w");
+    fprintf(arq,"816594\t %.0lf comparacoes\t %.0lf movimentacoes\t %.4lf segundos\t",contComp,contmov,tempo);
+    fclose(arq);
+    return 0;
 }

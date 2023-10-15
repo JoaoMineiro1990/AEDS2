@@ -286,8 +286,8 @@ public class TP02Q09
         long inicio = System.currentTimeMillis();
 
         // inicio codigo
-        String Arquivo = "/tmp/players.csv";
-        Jogador[] jogadores = new Jogador[463];
+        String Arquivo = "/tmp/playersAtualizado.csv";
+        Jogador[] jogadores = new Jogador[500];
         Scanner scanner = new Scanner(System.in);
 
         int i=0;

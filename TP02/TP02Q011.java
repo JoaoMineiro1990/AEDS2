@@ -261,8 +261,9 @@ public class TP02Q011
         long inicio = System.currentTimeMillis();
 
         // inicio codigo
-        String Arquivo = "C:\\Users\\Pichau\\Desktop\\Aeds2\\AEDS2\\tmp\\players.csv";
+        //String Arquivo = "C:\\Users\\Pichau\\Desktop\\Aeds2\\AEDS2\\tmp\\players.csv";
         //String Arquivo = "/tmp/players.csv";
+        String Arquivo = "/tmp/playersAtualizado.csv";
         Jogador[] jogadores = new Jogador[500];
         Scanner scanner = new Scanner(System.in);
 
